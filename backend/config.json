@@ -1,0 +1,7 @@
+{
+  "weights": {
+    "intent": 0.35,
+    "repayment": 0.35,
+    "income": 0.30
+  }
+}

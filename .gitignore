@@ -1,0 +1,11 @@
+.env
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+lending_platform.db
+models/*.pkl
+models/models_metadata.json
+frontend/dist/
+frontend/node_modules/
