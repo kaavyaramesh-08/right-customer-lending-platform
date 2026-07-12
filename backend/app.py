@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session
 from typing import List, Dict, Any, Optional
 
 # Add current project root to PYTHONPATH
-sys.path.append("C:\\Users\\KAAVYA\\.gemini\\antigravity\\scratch\\right-customer-lending-platform")
+#sys.path.append("C:\\Users\\KAAVYA\\.gemini\\antigravity\\scratch\\right-customer-lending-platform")
 
 from backend.database import get_db, init_db_and_seed, Customer, engine, Base
 from backend.schemas import (
