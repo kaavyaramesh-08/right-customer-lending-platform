@@ -4,7 +4,9 @@ import pytest
 from fastapi.testclient import TestClient
 
 # Add project path to python path
-sys.path.append("C:\\Users\\KAAVYA\\.gemini\\antigravity\\scratch\\right-customer-lending-platform")
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if BASE_DIR not in sys.path:
+    sys.path.append(BASE_DIR)
 
 from backend.app import app
 

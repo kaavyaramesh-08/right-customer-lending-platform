@@ -194,7 +194,8 @@ def generate_synthetic_data(output_path, num_customers=150):
     print(f"Generated data for {num_customers} customers written to {output_path}.")
 
 if __name__ == "__main__":
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     generate_synthetic_data(
-        "C:\\Users\\KAAVYA\\.gemini\\antigravity\\scratch\\right-customer-lending-platform\\data\\raw_customers.csv",
+        os.path.join(BASE_DIR, "data", "raw_customers.csv"),
         num_customers=150
     )

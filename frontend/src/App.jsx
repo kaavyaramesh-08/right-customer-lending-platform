@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
+import API_BASE from './config';
 import { 
   LayoutDashboard, 
   Users, 
@@ -96,7 +97,7 @@ export default function App() {
   const fetchData = () => {
     setLoading(true);
     // Fetch API status first
-    fetch('/api/status')
+    fetch(`${API_BASE}/api/status`)
       .then(res => res.json())
       .then(statusData => {
         setApiStatus({
@@ -108,7 +109,7 @@ export default function App() {
       .catch(err => console.error("Failed to load backend status:", err));
 
     // Fetch leads
-    fetch('/api/leads')
+    fetch(`${API_BASE}/api/leads`)
       .then(res => {
         if (!res.ok) throw new Error("Failed to load customer profiles from database.");
         return res.json();
@@ -197,7 +198,7 @@ export default function App() {
   // Handle live model retraining
   const triggerRetraining = () => {
     setTrainingLoading(true);
-    fetch('/api/train', { method: 'POST' })
+    fetch(`${API_BASE}/api/train`, { method: 'POST' })
       .then(res => {
         if (!res.ok) throw new Error("Retraining failed on backend.");
         return res.json();
@@ -225,7 +226,7 @@ export default function App() {
     if (!presetText) setChatInput('');
     setChatLoading(true);
 
-    fetch('/api/chatbot/query', {
+    fetch(`${API_BASE}/api/chatbot/query`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

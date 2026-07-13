@@ -95,26 +95,26 @@ def generate_mock_fallback_response(system_prompt: str, question: str) -> str:
     if "why" in question_lower or "score" in question_lower or "repayment" in question_lower:
         return (
             f"{response_header}Hello! Because the GEMINI_API_KEY is not set in the `.env` file, I am answering in Demo Grounded Fallback Mode.\n\n"
-            f"Regarding **{name}**, their scores are: Lead Score: **{lead_score}**, Repayment Capacity Score: **{repayment_score}**, "
-            f"Income Stability Score: **{income_score}**, and Intent Score: **{intent_score}**.\n\n"
-            f"The ML model suggests a **{rec_loan}** for this customer. "
+            f"Regarding {name}, their scores are: Lead Score: {lead_score}, Repayment Capacity Score: {repayment_score}, "
+            f"Income Stability Score: {income_score}, and Intent Score: {intent_score}.\n\n"
+            f"The ML model suggests a {rec_loan} for this customer. "
             f"Their repayment score is influenced by their debt obligations (EMIs) compared to monthly credits, and their credit score. "
             f"In a live demo, a configured Gemini model would provide full explainability here."
         )
     elif "recommend" in question_lower or "product" in question_lower or "loan" in question_lower:
         return (
-            f"{response_header}Based on {name}'s transaction history and behavioral metrics, the system recommends a **{rec_loan}**.\n\n"
-            f"This recommendation is grounded in an Intent Score of **{intent_score}/100** and a Repayment Score of **{repayment_score}/100**. "
+            f"{response_header}Based on {name}'s transaction history and behavioral metrics, the system recommends a {rec_loan}.\n\n"
+            f"This recommendation is grounded in an Intent Score of {intent_score}/100 and a Repayment Score of {repayment_score}/100. "
             f"Set up the Gemini API key to see natural-language conversational justifications."
         )
     else:
         return (
-            f"{response_header}Hello! I am IDBI SmartLend Bot. I am running in Demo Fallback Mode since no `GEMINI_API_KEY` was found.\n\n"
-            f"Under review: **{name}**\n"
-            f"- Lead Score: **{lead_score}/100**\n"
-            f"- Recommended Loan: **{rec_loan}**\n"
-            f"- Repayment Score: **{repayment_score}/100**\n"
-            f"- Income Stability Score: **{income_score}/100**\n\n"
+            f"{response_header}Hello! I am IDBI SmartLend Bot. I am running in Demo Fallback Mode since no GEMINI_API_KEY was found.\n\n"
+            f"Under review: {name}\n"
+            f"- Lead Score: {lead_score}/100\n"
+            f"- Recommended Loan: {rec_loan}\n"
+            f"- Repayment Score: {repayment_score}/100\n"
+            f"- Income Stability Score: {income_score}/100\n\n"
             f"Ask me about this customer's scores or why they were recommended this loan!"
         )
 
@@ -166,6 +166,7 @@ Features driving this customer's predictions (positive values increase the score
 2. If asked why a score is high or low, connect it to the features. For example: "The customer has an Intent Score of 85 because they visited the loan app 18 times and used the EMI calculator 12 times." Or: "Repayment Capacity is low (32) because their existing EMIs of Rs. 40,000 absorb a large fraction of their monthly credits of Rs. 60,000."
 3. If asked why a specific loan product was recommended, refer to their stated loan preference or their CIBIL score/income.
 4. Keep answers concise, professional, and directly useful to a banking relationship manager.
+5. DO NOT use any markdown characters (such as asterisks **, hashes # or ###, or list asterisks *). Respond ONLY in clean, plain text. Write in concise, precise paragraphs and use regular numbered lists (e.g. 1., 2.) if listing points. Keep the response extremely readable, concise, and clear.
 """
     
     return call_llm(system_prompt, question)

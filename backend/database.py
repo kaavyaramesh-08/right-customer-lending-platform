@@ -3,7 +3,9 @@ import csv
 from sqlalchemy import create_engine, Column, Integer, String, Float
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-DATABASE_URL = "sqlite:///C:\\Users\\KAAVYA\\.gemini\\antigravity\\scratch\\right-customer-lending-platform\\lending_platform.db"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+db_path = os.path.join(BASE_DIR, "lending_platform.db")
+DATABASE_URL = f"sqlite:///{db_path}"
 
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -36,7 +38,7 @@ class Customer(Base):
 
 def init_db_and_seed():
     # If the database file exists, let's delete it or overwrite it to re-seed cleanly
-    db_path = "C:\\Users\\KAAVYA\\.gemini\\antigravity\\scratch\\right-customer-lending-platform\\lending_platform.db"
+    db_path = os.path.join(BASE_DIR, "lending_platform.db")
     
     Base.metadata.create_all(bind=engine)
     
@@ -47,7 +49,7 @@ def init_db_and_seed():
         db.close()
         return
         
-    csv_path = "C:\\Users\\KAAVYA\\.gemini\\antigravity\\scratch\\right-customer-lending-platform\\data\\raw_customers.csv"
+    csv_path = os.path.join(BASE_DIR, "data", "raw_customers.csv")
     if not os.path.exists(csv_path):
         print(f"CSV file not found at {csv_path}. Seeding will run during startup if raw_customers.csv is generated.")
         db.close()

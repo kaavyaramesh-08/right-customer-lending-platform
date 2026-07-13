@@ -9,7 +9,9 @@ from sqlalchemy.orm import Session
 from typing import List, Dict, Any, Optional
 
 # Add current project root to PYTHONPATH
-#sys.path.append("C:\\Users\\KAAVYA\\.gemini\\antigravity\\scratch\\right-customer-lending-platform")
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if BASE_DIR not in sys.path:
+    sys.path.append(BASE_DIR)
 
 from backend.database import get_db, init_db_and_seed, Customer, engine, Base
 from backend.schemas import (
@@ -30,16 +32,28 @@ app = FastAPI(
 )
 
 # Enable CORS for frontend integration
+origins = [
+    "http://localhost:5173",
+    "http://localhost:3000",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+]
+origins_env = os.getenv("ALLOWED_ORIGINS")
+if origins_env:
+    origins.extend([o.strip() for o in origins_env.split(",")])
+else:
+    origins.append("*")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-MODELS_DIR = "C:\\Users\\KAAVYA\\.gemini\\antigravity\\scratch\\right-customer-lending-platform\\models"
-CONFIG_PATH = "C:\\Users\\KAAVYA\\.gemini\\antigravity\\scratch\\right-customer-lending-platform\\backend\\config.json"
+MODELS_DIR = os.path.join(BASE_DIR, "models")
+CONFIG_PATH = os.path.join(BASE_DIR, "backend", "config.json")
 
 # Global dict to store models
 ml_models = {}
@@ -392,8 +406,8 @@ def train_endpoint():
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 
-DIST_DIR = "C:\\Users\\KAAVYA\\.gemini\\antigravity\\scratch\\right-customer-lending-platform\\frontend\\dist"
-FRONTEND_DIR = "C:\\Users\\KAAVYA\\.gemini\\antigravity\\scratch\\right-customer-lending-platform\\frontend"
+DIST_DIR = os.path.join(BASE_DIR, "frontend", "dist")
+FRONTEND_DIR = os.path.join(BASE_DIR, "frontend")
 
 if os.path.exists(os.path.join(DIST_DIR, "index.html")):
     print("Serving compiled production React app from frontend/dist...")
@@ -409,4 +423,7 @@ else:
     app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
     @app.get("/")
     def serve_raw_index():
+        standalone_path = os.path.join(FRONTEND_DIR, "standalone.html")
+        if os.path.exists(standalone_path):
+            return FileResponse(standalone_path)
         return FileResponse(os.path.join(FRONTEND_DIR, "index.html"))

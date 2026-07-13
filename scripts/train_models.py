@@ -6,7 +6,9 @@ import pandas as pd
 import numpy as np
 
 # Set search path for dependencies
-sys.path.append("C:\\Users\\KAAVYA\\.gemini\\antigravity\\scratch\\right-customer-lending-platform")
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if BASE_DIR not in sys.path:
+    sys.path.append(BASE_DIR)
 
 from xgboost import XGBRegressor
 from sklearn.model_selection import train_test_split
@@ -16,8 +18,8 @@ from scripts.generate_data import generate_synthetic_data
 from scripts import feature_engineering
 
 def train_and_serialize_models():
-    data_dir = "C:\\Users\\KAAVYA\\.gemini\\antigravity\\scratch\\right-customer-lending-platform\\data"
-    models_dir = "C:\\Users\\KAAVYA\\.gemini\\antigravity\\scratch\\right-customer-lending-platform\\models"
+    data_dir = os.path.join(BASE_DIR, "data")
+    models_dir = os.path.join(BASE_DIR, "models")
     csv_path = os.path.join(data_dir, "raw_customers.csv")
     
     os.makedirs(models_dir, exist_ok=True)
