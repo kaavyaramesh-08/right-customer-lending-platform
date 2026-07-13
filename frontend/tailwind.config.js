@@ -11,6 +11,7 @@ export default {
         'primary-dark': '#3F5220',
         accent: '#A9A067',
         bgLight: '#F5F5EE',
+        cream: '#F5F5EE',
         surface: '#FFFFFF',
         surfaceBorder: '#D9D9C2',
         success: '#6B8E23',
